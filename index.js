@@ -147,9 +147,13 @@ function injectNavbarIntoHtml(originalHtml, navbarHtml, currentPath) {
             border-bottom: 1px solid #ddd;
             margin-bottom: 20px;
           }
+          #markdown {
+            display: none;
+          }
         </style>
       </head>
       <body>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <nav>
           <div class="search-container">
             <input type="text" id="searchInput" placeholder="Buscar" />
@@ -159,6 +163,7 @@ function injectNavbarIntoHtml(originalHtml, navbarHtml, currentPath) {
         <main>
           <div class="breadcrumb">${formattedPath}</div>
           ${originalHtml}
+          <div id="html-output" class="markdown-body"></div>
         </main>
         <script>
           function toggleDropdown(el) {
@@ -185,6 +190,12 @@ function injectNavbarIntoHtml(originalHtml, navbarHtml, currentPath) {
               document.querySelector(".breadcrumb").textContent = path;
             });
           });
+        </script>
+
+        <script>
+          const rawMarkdown = document.getElementById("markdown").textContent;
+          const html = marked.parse(rawMarkdown);
+          document.getElementById("html-output").innerHTML = html;
         </script>
       </body>
     </html>
